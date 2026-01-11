@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact — Tendy Woodlands Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+  <!-- header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Tendy Woodlands Services homepage">
+        <img src="assets/logo.png" alt="logo" class="logo">
+        <div class="brand-text">
+          <span class="brand-name">Tendy Woodlands Services</span>
+          <span class="brand-tag">Consultancy &amp; Training</span>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Main navigation">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-list">☰</button>
+        <ul id="nav-list" class="nav-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="training.html">Training</a></li>
+          <li><a href="industries.html">Industries</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a class="active" href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section contact">
+      <div class="container contact-grid">
+        <div class="contact-card">
+          <h2>Contact Us</h2>
+          <p>Ready to uplift your food safety systems or train your team? Reach out and we'll design a custom proposal.</p>
+          <p><strong>Office:</strong> [Insert Office Location]</p>
+          <p><strong>Phone:</strong> [Insert Phone Number]</p>
+          <p><strong>Email:</strong> <a href="mailto:info@tendywoodlands.com">info@tendywoodlands.com</a></p>
+        </div>
+
+        <form class="contact-form" action="#" method="post" onsubmit="return submitContact(event)">
+          <label>
+            <span>Name</span>
+            <input type="text" name="name" required>
+          </label>
+          <label>
+            <span>Company</span>
+            <input type="text" name="company">
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" required>
+          </label>
+          <label>
+            <span>Message</span>
+            <textarea name="message" rows="6" required></textarea>
+          </label>
+          <div class="form-actions">
+            <button class="btn primary" type="submit">Send Message</button>
+            <button class="btn outline" type="reset">Reset</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year-6"></span> Tendy Woodlands Services — All rights reserved.</p>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="training.html">Training</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year-6').textContent=new Date().getFullYear()</script>
+  <script src="scripts/tendycite.js"></script>
+</body>
+</html>

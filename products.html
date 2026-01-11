@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Products & Services | Tendy Woodlands Services</title>
+  <link rel="stylesheet" href="styles/styles.css">
+</head>
+
+
+<body>
+
+<nav class="navbar">
+  <a href="index.html">Home</a>
+  <a class="active" href="products.html">Products</a>
+  <a href="services.html">Services</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<h2>Products</h2>
+
+<select id="categoryFilter">
+  <option value="">All Categories</option>
+</select>
+
+<div id="productsGrid" class="products-grid"></div>
+
+
+
+<div id="productModal" class="modal" hidden>
+  <div class="modal-overlay" onclick="closeProduct()"></div>
+
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeProduct()">×</button>
+
+    <h2 id="modalTitle"></h2>
+    <p id="modalDescription"></p>
+
+    <div class="modal-footer">
+      <strong id="modalPrice"></strong>
+      <button class="btn primary" onclick="openEnquiryFromModal()">
+        Enquire
+      </button>
+    </div>
+  </div>
+</div>
+<div id="enquiryModal" class="modal" hidden>
+  <div class="modal-overlay" onclick="closeEnquiry()"></div>
+
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeEnquiry()">×</button>
+
+    <h3>Product Enquiry</h3>
+
+    <form id="enquiryForm">
+      <input type="hidden" name="product_id">
+
+      <label>
+        Name
+        <input type="text" name="name" required>
+      </label>
+
+      <label>
+        Email
+        <input type="email" name="email" required>
+      </label>
+
+      <label>
+        Phone
+        <input type="text" name="phone">
+      </label>
+
+      <label>
+        Message
+        <textarea name="message"></textarea>
+      </label>
+
+      <button class="btn primary">Send Enquiry</button>
+    </form>
+  </div>
+</div>
+
+<script src="scripts/products.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About — Tendy Woodlands Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+  <!-- same header as index.html -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Tendy Woodlands Services homepage">
+        <img src="assets/logo.png" alt="logo" class="logo">
+        <div class="brand-text">
+          <span class="brand-name">Tendy Woodlands Services</span>
+          <span class="brand-tag">Consultancy &amp; Training — Food Manufacturing</span>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Main navigation">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-list">☰</button>
+        <ul id="nav-list" class="nav-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="training.html">Training</a></li>
+          <li><a href="industries.html">Industries</a></li>
+          <li><a class="active" href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section about">
+      <div class="container">
+        <h2>About Tendy Woodlands Services</h2>
+
+        <p><strong>Company overview</strong><br>
+        Tendy Woodlands Services is a dynamic consultancy firm specializing in guiding food manufacturers to meet regulatory standards, improve operational performance, and build workforce capability through tailored training and practical support.</p>
+
+        <h3>Vision</h3>
+        <p>To be the leading provider of transformative consultancy and training services in the food manufacturing sector across Africa and beyond.</p>
+
+        <h3>Mission</h3>
+        <p>Deliver high-impact, practical solutions that improve food safety, operational efficiency and workforce competence.</p>
+
+        <h3>Core Values</h3>
+        <ul class="values">
+          <li><strong>Integrity</strong> — Highest standards of professionalism and ethics.</li>
+          <li><strong>Innovation</strong> — Embrace modern technologies and methodologies.</li>
+          <li><strong>Sustainability</strong> — Promote environmentally responsible practices.</li>
+          <li><strong>Client-Centricity</strong> — Tailored services for each client.</li>
+          <li><strong>Excellence</strong> — Quality in everything we do.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year-2"></span> Tendy Woodlands Services</p>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="services.html">Services</a>
+        <li><a href="products.html">Products</a></li>
+        <a href="training.html">Training</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year-2').textContent=new Date().getFullYear()</script>
+  <script src="scripts/tendycite.js"></script>
+</body>
+</html>

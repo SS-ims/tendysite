@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tendy Woodlands Services — Home</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Tendy Woodlands Services homepage">
+        <img src="assets/logo.png" width="200" height="200" alt="Tendy Woodlands Services logo" class="logo">
+        <div class="brand-text">
+          <span class="brand-name">Tendy Woodlands Services</span>
+          <span class="brand-tag">Consultancy &amp; Training — Food Manufacturing</span>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Main navigation">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-list">☰</button>
+        <ul id="nav-list" class="nav-list">
+          <li><a class="active" href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="training.html">Training</a></li>
+          <li><a href="industries.html">Industries</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-background" aria-hidden="true">
+        <img src="assets/hero-bg.jpg" alt="">
+      </div>
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1>Quality &amp; Food Safety Management Systems Consultancy</h1>
+          <p class="lead">Practical, regulatory-compliant solutions and hands-on training to improve food safety, efficiency and sustainability.</p>
+          <div class="hero-cta">
+            <a class="btn primary" href="services.html">Our Services</a>
+            <a class="btn outline" href="contact.html">Request a Quote</a>
+          </div>
+        </div>
+
+        <aside class="hero-side" aria-hidden="false">
+          <div class="card highlight">
+            <h3>ISO 22000 · HACCP · FSSC 22000</h3>
+            <p>Compliance, audits and system implementation tailored to your operation.</p>
+          </div>
+          <div class="card">
+            <h4>Tailored Training</h4>
+            <p>GMP, hygiene, internal auditing and leadership development for production teams.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="services-preview" class="section services">
+      <div class="container">
+        <h2>Our Services</h2>
+        <div class="grid">
+          <article class="service-card">
+            <h3>Food Safety Systems</h3>
+            <p>HACCP, ISO 22000 and FSSC 22000 development, documentation and implementation.</p>
+          </article>
+
+          <article class="service-card">
+            <h3>Regulatory & Audit Prep</h3>
+            <p>Gap analysis, mock audits and certificate readiness support.</p>
+          </article>
+
+          <article class="service-card">
+            <h3>Process Optimization</h3>
+            <p>Lean methods, throughput improvement and waste reduction.</p>
+          </article>
+
+          <article class="service-card">
+            <h3>Product Development</h3>
+            <p>Scale-up support, shelf-life studies and formulation advice.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="training-preview" class="section training">
+      <div class="container">
+        <h2>Training Programs</h2>
+        <p class="muted">Delivered on-site, online or hybrid — designed for technical and non-technical teams.</p>
+
+        <div class="grid grid-3">
+          <div class="topic">
+            <h4>Food Safety & Hygiene</h4>
+            <p>Behavior-based training to reduce contamination risk.</p>
+          </div>
+
+          <div class="topic">
+            <h4>GMP & Sanitation</h4>
+            <p>Standard procedures, verification and sanitation scheduling.</p>
+          </div>
+
+          <div class="topic">
+            <h4>Internal Auditing</h4>
+            <p>Skills for internal auditors to identify root causes and corrective actions.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Tendy Woodlands Services — All rights reserved.</p>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="services.html">Services</a>
+        <a href="training.html">Training</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="scripts/tendycite.js"></script>
+</body>
+</html>
