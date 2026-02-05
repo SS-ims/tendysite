@@ -1,10 +1,9 @@
-fetch('http://localhost:3000/api/admin/enquiries', {
-  headers: {
-    Authorization: 'Bearer ' + localStorage.getItem('adminToken')
-  }
-})
-const API = 'http://localhost:3000';
+const API = window.location.origin;
+const token = localStorage.getItem('adminToken');
 
+if (!token) {
+  window.location.href = '/admin/login';
+}
 
 /* Fetch enquiries */
 fetch(`${API}/api/admin/enquiries`, {
@@ -15,7 +14,7 @@ fetch(`${API}/api/admin/enquiries`, {
   .then(res => {
     if (res.status === 401) {
       localStorage.removeItem('adminToken');
-      window.location.href = 'admin-login.html';
+      window.location.href = '/admin/login';
       return;
     }
     return res.json();
@@ -46,8 +45,8 @@ fetch(`${API}/api/admin/enquiries`, {
   </tr>
 `).join('');
    });
-   function updateStatus(id, status) {
-  fetch(`http://localhost:3000/api/admin/enquiries/${id}/status`, {
+function updateStatus(id, status) {
+  fetch(`${API}/api/admin/enquiries/${id}/status`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',

@@ -1,7 +1,7 @@
 const grid = document.getElementById('productsGrid');
 const categoryFilter = document.getElementById('categoryFilter');
 
-const API = 'http://localhost:3000';
+const API = window.location.origin;
 
 /* =========================
    LOAD CATEGORIES
@@ -36,7 +36,7 @@ function loadProducts(categoryId = '') {
 
       grid.innerHTML = products.map(p => `
         <article class="product-card">
-          <img src="assets/products/${p.image}" alt="${p.name}">
+          <img src="/assets/products/${p.image}" alt="${p.name}">
           <div class="product-body">
             <span class="badge">${p.category || ''}</span>
             <h3>${p.name}</h3>
@@ -116,7 +116,7 @@ document.getElementById('enquiryForm').addEventListener('submit', e => {
 
   const form = e.target;
 
-  fetch('http://localhost:3000/api/enquiries', {
+  fetch(`${API}/api/enquiries`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

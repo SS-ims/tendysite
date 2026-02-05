@@ -1,7 +1,7 @@
 const token = localStorage.getItem('adminToken');
 
 if (!token) {
-  window.location.href = 'admin-login.html';
+  window.location.href = '/admin/login';
 }
 
 /* Inject admin navbar */
@@ -10,8 +10,8 @@ document.body.insertAdjacentHTML(
   `
   <nav class="navbar">
     <strong>Admin Panel</strong>
-    <a href="admin-dashboard.html" data-page="dashboard">Dashboard</a>
-    <a href="admin-enquiries.html" data-page="enquiries">Enquiries</a>
+    <a href="/admin/dashboard" data-page="dashboard">Dashboard</a>
+    <a href="/admin/enquiries" data-page="enquiries">Enquiries</a>
     <a href="#" id="logoutBtn">Logout</a>
   </nav>
   `
@@ -21,7 +21,7 @@ document.body.insertAdjacentHTML(
 document.getElementById('logoutBtn').addEventListener('click', e => {
   e.preventDefault();
   localStorage.removeItem('adminToken');
-  window.location.href = 'admin-login.html';
+  window.location.href = '/admin/login';
 });
 
 /* Active link highlighting */

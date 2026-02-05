@@ -1,4 +1,4 @@
-const API = 'http://localhost:3000';
+const API = window.location.origin;
 
 /* Fetch dashboard summary */
 fetch(`${API}/api/admin/dashboard`, {
@@ -9,7 +9,7 @@ fetch(`${API}/api/admin/dashboard`, {
   .then(res => {
     if (res.status === 401) {
       localStorage.removeItem('adminToken');
-      window.location.href = 'admin-login.html';
+      window.location.href = '/admin/login';
       return;
     }
     return res.json();

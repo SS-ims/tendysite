@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Industries — Tendy Woodlands Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="Tendy Woodlands Services homepage">
+        <img src="/assets/logo.png" alt="logo" class="logo">
+        <div class="brand-text">
+          <span class="brand-name">Tendy Woodlands Services</span>
+          <span class="brand-tag">Consultancy &amp; Training</span>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Main navigation">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-list">☰</button>
+        <ul id="nav-list" class="nav-list">
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/products">Products</a></li>
+          <li><a href="/training">Training</a></li>
+          <li><a class="active" href="/industries">Industries</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h2>Industries We Serve</h2>
+        <p class="muted">We specialise in a range of food manufacturing sectors.</p>
+
+        <ul class="industry-list">
+          <li>Dairy & Beverages</li>
+          <li>Meat & Poultry Processing</li>
+          <li>Bakery & Confectionery</li>
+          <li>Fruits & Vegetables Processing</li>
+          <li>Packaged & Convenience Foods</li>
+        </ul>
+
+        <h3>Case study placeholders</h3>
+        <p class="muted">(Add client success stories or PDF downloads here.)</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year-5"></span> Tendy Woodlands Services</p>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="/">Home</a>
+        <a href="/services">Services</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year-5').textContent=new Date().getFullYear()</script>
+  <script src="/scripts/tendycite.js"></script>
+</body>
+</html>

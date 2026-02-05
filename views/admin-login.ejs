@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+
+<h2>Admin Login</h2>
+
+<form id="loginForm">
+  <input
+    type="email"
+    name="email"
+    placeholder="Email"
+    autocomplete="username"
+    required
+  >
+
+  <input
+    type="password"
+    name="password"
+    placeholder="Password"
+    autocomplete="current-password"
+    required
+  >
+
+  <button type="submit">Login</button>
+</form>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', e => {
+  e.preventDefault();
+
+  fetch(`${window.location.origin}/api/admin/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email: e.target.email.value,
+      password: e.target.password.value
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.token) {
+      localStorage.setItem('adminToken', data.token);
+      location.href = '/admin/enquiries';
+    } else {
+      alert(JSON.stringify(data));
+    }
+  });
+});
+</script>
+
+</body>
+</html>

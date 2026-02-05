@@ -13,6 +13,7 @@ console.log('ENV CHECK:', {
 
 
 const express = require('express');
+const path = require('path');
 const mysql = require('mysql2');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
@@ -29,6 +30,11 @@ console.log('JWT secret loaded:', !!process.env.JWT_SECRET);
 
 const app = express();
 
+const rootDir = path.join(__dirname, '..');
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(rootDir, 'views'));
+
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST', 'PATCH', 'OPTIONS'],
@@ -36,6 +42,10 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+app.use('/assets', express.static(path.join(rootDir, 'assets')));
+app.use('/styles', express.static(path.join(rootDir, 'styles')));
+app.use('/scripts', express.static(path.join(rootDir, 'scripts')));
 
 /* =======================
    AUTH MIDDLEWARE
@@ -72,11 +82,31 @@ db.connect(err => {
 });
 
 /* =======================
-   TEST ROUTE
-   ======================= */
-app.get('/', (req, res) => {
-  res.send('Backend is running');
-});
+  PAGE ROUTES
+  ======================= */
+app.get('/', (req, res) => res.render('index'));
+app.get('/services', (req, res) => res.render('services'));
+app.get('/products', (req, res) => res.render('products'));
+app.get('/training', (req, res) => res.render('training'));
+app.get('/industries', (req, res) => res.render('industries'));
+app.get('/about', (req, res) => res.render('about'));
+app.get('/contact', (req, res) => res.render('contact'));
+
+app.get('/admin/login', (req, res) => res.render('admin-login'));
+app.get('/admin/dashboard', (req, res) => res.render('admin-dashboard'));
+app.get('/admin/enquiries', (req, res) => res.render('admin-enquiries'));
+
+/* Legacy .html redirects */
+app.get('/index.html', (req, res) => res.redirect('/'));
+app.get('/services.html', (req, res) => res.redirect('/services'));
+app.get('/products.html', (req, res) => res.redirect('/products'));
+app.get('/training.html', (req, res) => res.redirect('/training'));
+app.get('/industries.html', (req, res) => res.redirect('/industries'));
+app.get('/about.html', (req, res) => res.redirect('/about'));
+app.get('/contact.html', (req, res) => res.redirect('/contact'));
+app.get('/admin-login.html', (req, res) => res.redirect('/admin/login'));
+app.get('/admin-dashboard.html', (req, res) => res.redirect('/admin/dashboard'));
+app.get('/admin-enquiries.html', (req, res) => res.redirect('/admin/enquiries'));
 
 /* =======================
    PRODUCTS
