@@ -18,8 +18,9 @@ const mysql = require('mysql2');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { sendMail } = require('./utils/mailer');
 
-const JWT_SECRET = 'CHANGE_THIS_SECRET';
+const JWT_SECRET = process.env.JWT_SECRET || 'CHANGE_THIS_SECRET';
 
 /* =======================
    APP SETUP
@@ -215,6 +216,73 @@ app.patch('/api/admin/enquiries/:id/status', requireAdmin, (req, res) => {
     err => {
       if (err) return res.status(500).json(err);
       res.json({ success: true });
+    }
+  );
+});
+
+/* =======================
+   PUBLIC CONTACT FORM
+   ======================= */
+app.post('/api/contact', (req, res) => {
+  const { name, company, email, message } = req.body;
+
+  // Validation
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: 'Missing required fields: name, email, message' });
+  }
+
+  const sql = `
+    INSERT INTO contact_requests
+    (name, company, email, message)
+    VALUES (?, ?, ?, ?)
+  `;
+
+  db.query(
+    sql,
+    [name, company || '', email, message],
+    async (err, result) => {
+      if (err) {
+        console.error('Database error:', err);
+        return res.status(500).json({ error: 'Failed to save contact request' });
+      }
+
+      // Send email to admin
+      try {
+        await sendMail({
+          to: process.env.ADMIN_EMAIL || 'admin@tendywoodlands.com',
+          subject: `New Contact Request from ${name}`,
+          html: `
+            <h2>New Contact Request</h2>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Company:</strong> ${company || 'Not provided'}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Message:</strong></p>
+            <p>${message.replace(/\n/g, '<br>')}</p>
+            <p><strong>Received:</strong> ${new Date().toLocaleString()}</p>
+          `
+        });
+      } catch (mailErr) {
+        console.error('Email error:', mailErr);
+      }
+
+      // Send acknowledgment to customer
+      try {
+        await sendMail({
+          to: email,
+          subject: 'We received your message - Tendy Woodlands Services',
+          html: `
+            <h2>Thank You, ${name}!</h2>
+            <p>We have received your message and appreciate you reaching out.</p>
+            <p>Our team will review your inquiry and get back to you shortly.</p>
+            <br>
+            <p>Best regards,<br>Tendy Woodlands Services Team</p>
+          `
+        });
+      } catch (mailErr) {
+        console.error('Email error:', mailErr);
+      }
+
+      res.json({ success: true, message: 'Thank you! We have received your message.' });
     }
   );
 });
