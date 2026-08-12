@@ -1,0 +1,355 @@
+╔════════════════════════════════════════════════════════════════╗
+║     TENDY WOODLANDS SERVICES - SETUP CHECKLIST (PRINTABLE)     ║
+╚════════════════════════════════════════════════════════════════╝
+
+PHASE 1: PRE-SETUP CHECKLIST
+═══════════════════════════════════════════════════════════════════
+
+Pre-Requirements:
+  ☐ Node.js 14+ installed (check: node --version)
+  ☐ MySQL/MariaDB installed and running (check: mysql -u root -p)
+  ☐ Gmail account with 2FA enabled
+  ☐ Text editor or IDE (VS Code recommended)
+  ☐ 30 minutes available
+
+System Check:
+  ☐ Node.js version: _________________
+  ☐ MySQL version: _________________
+  ☐ npm version: _________________
+
+File Structure Confirmed:
+  ☐ backend/server.js exists
+  ☐ backend/.env.example exists
+  ☐ backend/database.sql exists
+  ☐ backend/package.json exists
+  ☐ scripts/tendycite.js exists
+
+
+PHASE 2: CONFIGURATION
+═══════════════════════════════════════════════════════════════════
+
+Gmail Setup:
+  ☐ Logged into Gmail at https://myaccount.google.com
+  ☐ 2-Step Verification enabled
+  ☐ Generated App Password from https://myaccount.google.com/apppasswords
+  ☐ Copied 16-character App Password: _____________________
+
+Create .env File:
+  ☐ Opened backend/.env.example
+  ☐ Saved as backend/.env
+  ☐ Updated DB_HOST: localhost
+  ☐ Updated DB_USER: root
+  ☐ Updated DB_PASSWORD: 1984 (or your MySQL password)
+  ☐ Updated DB_NAME: tendy_db
+  ☐ Generated JWT_SECRET (use: node -e "console.log(require('crypto').randomBytes(32).toString('hex'))")
+  ☐ Entered JWT_SECRET: _____________________
+  ☐ Updated MAIL_USER: _____________________@gmail.com
+  ☐ Updated MAIL_PASS: _____________________
+  ☐ Updated ADMIN_EMAIL: _____________________@company.com
+  ☐ Saved .env file
+
+Database Setup:
+  ☐ Opened MySQL: mysql -u root -p
+  ☐ Verified connection successful
+  ☐ Ran: mysql -u root -p < backend/database.sql
+  ☐ Verified with: mysql -u root -p -e "SELECT * FROM tendy_db.products;"
+  ☐ Confirmed 4 products in database
+  ☐ Confirmed admin exists: admin@tendywoodlands.com
+  ☐ Closed MySQL connection
+
+
+PHASE 3: INSTALLATION
+═══════════════════════════════════════════════════════════════════
+
+Install Dependencies:
+  ☐ Opened terminal in backend folder
+  ☐ Ran: npm install
+  ☐ Wait for completion (about 1-2 minutes)
+  ☐ Verified node_modules folder created
+  ☐ No errors in installation output
+
+Start Server:
+  ☐ Ran: npm start
+  ☐ See "MySQL connected" message
+  ☐ See "Server running at http://localhost:3000"
+  ☐ Terminal shows no red error messages
+  ☐ Keep this terminal window open
+
+
+PHASE 4: INITIAL TESTING
+═══════════════════════════════════════════════════════════════════
+
+Browser Tests (Keep Server Running):
+  ☐ Opened http://localhost:3000 in browser
+  ☐ Home page loads successfully
+  ☐ Navigation menu works
+  ☐ Page has header and footer
+
+Product Page Test:
+  ☐ Visited http://localhost:3000/products
+  ☐ Products load within 2 seconds
+  ☐ See 4 products displayed
+  ☐ Category filter dropdown shows options
+  ☐ Can select different categories
+  ☐ Products filter correctly
+
+Contact Form Test:
+  ☐ Visited http://localhost:3000/contact
+  ☐ Form has all fields (name, company, email, message)
+  ☐ Filled form with test data
+  ☐ Submitted form
+  ☐ Saw success message
+  ☐ Checked MySQL: SELECT * FROM contact_requests ORDER BY id DESC LIMIT 1;
+  ☐ Confirmed data saved in database
+
+API Test:
+  ☐ Visited http://localhost:3000/api/products in browser
+  ☐ Saw JSON array of 4 products
+  ☐ Visited http://localhost:3000/api/categories
+  ☐ Saw JSON array of 3 categories
+
+
+PHASE 5: ADMIN SETUP & TESTING
+═══════════════════════════════════════════════════════════════════
+
+Admin Login Test:
+  ☐ Visited http://localhost:3000/admin/login
+  ☐ Login form appears
+  ☐ Entered: admin@tendywoodlands.com
+  ☐ Entered: admin123
+  ☐ Clicked Login
+  ☐ Successfully logged in
+  ☐ Redirected to dashboard
+
+Admin Dashboard Test:
+  ☐ Dashboard page loads
+  ☐ See statistics boxes (Total, New, Contacted, Closed)
+  ☐ Statistics display correctly
+  ☐ Navigation menu shows links
+
+View Enquiries (Optional - skip if no product enquiries):
+  ☐ Clicked "Enquiries" in admin menu
+  ☐ List of enquiries displays
+  ☐ Can see enquiry details
+
+
+PHASE 6: EMAIL TESTING (Optional but Recommended)
+═══════════════════════════════════════════════════════════════════
+
+Test Email Utility:
+  ☐ Opened new terminal window
+  ☐ Ran: node backend/test-mail.js
+  ☐ Entered test email address
+  ☐ Checked inbox for test email within 2 minutes
+  ☐ Test email received successfully
+
+Test Contact Form Email:
+  ☐ Submitted contact form (see PHASE 4)
+  ☐ Checked personal inbox for confirmation email
+  ☐ Checked admin email inbox for notification
+  ☐ Both emails received within 2 minutes
+
+
+PHASE 7: COMPLETE TESTING SUITE (Recommended)
+═══════════════════════════════════════════════════════════════════
+
+Run Full Test Suite:
+  ☐ Read TESTING.md file
+  ☐ Run Test 1: Server & Database ✓
+  ☐ Run Test 2: API - Products ✓
+  ☐ Run Test 3: API - Categories ✓
+  ☐ Run Test 4: Frontend - Products ✓
+  ☐ Run Test 5: Product Filtering ✓
+  ☐ Run Test 6: Contact Form ✓
+  ☐ Run Test 7: Contact Email ✓
+  ☐ Run Test 8: Product Enquiry ✓
+  ☐ Run Test 9: Admin Login ✓
+  ☐ Run Test 10: Admin Dashboard ✓
+  ☐ Run Test 11: Admin Enquiries ✓
+  ☐ Run Test 12: Update Status ✓
+  ☐ Run Test 13: Admin Logout ✓
+
+Test Results:
+  ☐ All 13 tests passed
+  ☐ No critical errors
+  ☐ All features working
+
+
+PHASE 8: CUSTOMIZATION (For Production)
+═══════════════════════════════════════════════════════════════════
+
+Update Credentials:
+  ☐ Changed admin password:
+    - Run: node backend/hash.js
+    - Enter new password
+    - Copy hash
+    - Run: mysql -u root -p
+    - Run: UPDATE admins SET password_hash='<hash>' WHERE id=1;
+  ☐ Updated admin email in .env: ADMIN_EMAIL=...
+  ☐ Updated email configuration in .env
+
+Add Products:
+  ☐ Connected to MySQL: mysql -u root -p tendy_db
+  ☐ Added real products with INSERT statements
+  ☐ Added real categories if needed
+  ☐ Added product images to assets/products/ folder
+
+Customize Content:
+  ☐ Updated company info in contact.html
+  ☐ Updated office location in contact form
+  ☐ Updated phone number
+  ☐ Added company logo to assets/ folder
+  ☐ Updated product descriptions
+
+Set Environment for Production:
+  ☐ Updated .env: NODE_ENV=production
+  ☐ Updated JWT_SECRET to strong random value
+  ☐ Verified all sensitive data not in source code
+
+
+PHASE 9: DEPLOYMENT (When Ready)
+═══════════════════════════════════════════════════════════════════
+
+Pre-Deployment Checklist:
+  ☐ Read DEPLOYMENT.md
+  ☐ Chose hosting platform (Heroku/DigitalOcean/AWS)
+  ☐ Verified all tests pass
+  ☐ Backed up database: mysqldump -u root -p tendy_db > backup.sql
+  ☐ Tested production email configuration
+
+Deploy Application:
+  ☐ Set up hosting account
+  ☐ Configured production database
+  ☐ Deployed code to hosting
+  ☐ Set environment variables on hosting
+  ☐ Tested on production URL
+  ☐ Configured SSL/HTTPS
+  ☐ Set up domain name
+  ☐ Tested all forms on production
+  ☐ Set up monitoring/logging
+  ☐ Set up automated backups
+
+
+PHASE 10: POST-LAUNCH MAINTENANCE
+═══════════════════════════════════════════════════════════════════
+
+First Week:
+  ☐ Monitor server logs daily
+  ☐ Check incoming enquiries
+  ☐ Verify emails sending
+  ☐ Test forms periodically
+  ☐ Monitor database size
+
+Monthly:
+  ☐ Review enquiry status
+  ☐ Check for security updates
+  ☐ Verify backups working
+  ☐ Check server resources
+  ☐ Review error logs
+
+Quarterly:
+  ☐ Update Node packages: npm update
+  ☐ Check npm audit for vulnerabilities: npm audit
+  ☐ Review admin access logs
+  ☐ Update admin password
+  ☐ Test disaster recovery plan
+
+
+═══════════════════════════════════════════════════════════════════
+
+QUICK REFERENCE
+═══════════════════════════════════════════════════════════════════
+
+Three Commands to Start:
+  1. cd backend
+  2. npm install
+  3. npm start
+
+Then visit: http://localhost:3000
+
+Key Passwords:
+  MySQL User: root
+  MySQL Pass: 1984
+  Admin Email: admin@tendywoodlands.com
+  Admin Pass: admin123 (CHANGE THIS!)
+
+Important Files:
+  .env (configuration)
+  database.sql (database)
+  server.js (backend)
+  SETUP.md (detailed guide)
+  TESTING.md (verification)
+
+Documentation Reading Order:
+  1. PROJECT_SUMMARY.txt
+  2. QUICKSTART.md
+  3. SETUP.md
+  4. TESTING.md
+  5. DEPLOYMENT.md
+
+
+═══════════════════════════════════════════════════════════════════
+
+TROUBLESHOOTING QUICK FIXES
+═══════════════════════════════════════════════════════════════════
+
+Problem: "MySQL connection failed"
+  ☐ Check MySQL is running
+  ☐ Verify username/password in .env
+  ☐ Verify database name is correct
+
+Problem: "Cannot find module"
+  ☐ Ran: npm install (in backend folder)
+  ☐ Check node_modules folder exists
+
+Problem: "Port 3000 already in use"
+  ☐ Change SERVER_PORT in .env
+  ☐ Or kill other process using port 3000
+
+Problem: "Emails not sending"
+  ☐ Verify Gmail 2FA enabled
+  ☐ Verify App Password is correct (not regular password)
+  ☐ Run: node backend/test-mail.js
+
+Problem: "Admin login fails"
+  ☐ Verify email/password correct
+  ☐ Reset password using hash.js
+  ☐ Verify JWT_SECRET in .env
+
+Problem: "Products don't show"
+  ☐ Run database.sql again
+  ☐ Check: mysql -u root -p -e "SELECT * FROM tendy_db.products;"
+  ☐ Check browser console (F12) for errors
+
+
+═══════════════════════════════════════════════════════════════════
+
+SIGN-OFF
+═══════════════════════════════════════════════════════════════════
+
+Project Name: Tendy Woodlands Services
+Setup Date: ___________________
+Completed By: ___________________
+System: ___________________
+
+Overall Status:
+  ☐ Development Setup Complete
+  ☐ All Tests Passed
+  ☐ Ready for Production
+  ☐ Ready for Customization
+
+Notes/Issues:
+  _________________________________________________________________
+  _________________________________________________________________
+  _________________________________________________________________
+
+Next Steps:
+  ☐ Customize products and content
+  ☐ Deploy to production (when ready)
+  ☐ Monitor and maintain
+  ☐ Gather customer feedback
+
+═══════════════════════════════════════════════════════════════════
+
+Print this checklist and keep it handy during setup!
+Good luck! 🚀
