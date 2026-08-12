@@ -1,7 +1,7 @@
 /* =======================
    IMPORTS
    ======================= */
-   require('dotenv').config();
+require('dotenv').config();
 
 console.log('ENV CHECK:', {
   jwt: !!process.env.JWT_SECRET,
@@ -113,9 +113,18 @@ app.get('/admin-enquiries.html', (req, res) => res.redirect('/admin/enquiries'))
    PRODUCTS
    ======================= */
 app.get('/api/products', (req, res) => {
-  db.query('SELECT * FROM products', (err, results) => {
-    if (err) return res.status(500).json(err);
-    res.json(results);
+  let sql = 'SELECT * FROM products';
+  let params = [];
+
+  // Filter by category if provided
+  if (req.query.category && req.query.category !== '') {
+    sql += ' WHERE category_id = ?';
+    params.push(req.query.category);
+  }
+
+  db.query(sql, params, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results || []);
   });
 });
 
@@ -132,8 +141,13 @@ app.get('/api/categories', (req, res) => {
 /* =======================
    PUBLIC ENQUIRIES
    ======================= */
-app.post('/api/enquiries', (req, res) => {
+app.post('/api/enquiries', async (req, res) => {
   const { product_id, name, email, phone, message } = req.body;
+
+  // Validation
+  if (!product_id || !name || !email || !message) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
 
   const sql = `
     INSERT INTO product_enquiries
@@ -143,10 +157,56 @@ app.post('/api/enquiries', (req, res) => {
 
   db.query(
     sql,
-    [product_id, name, email, phone, message],
-    err => {
-      if (err) return res.status(500).json(err);
-      res.json({ success: true });
+    [product_id, name, email, phone || '', message],
+    async (err, result) => {
+      if (err) {
+        console.error('Database error:', err);
+        return res.status(500).json({ error: 'Failed to save enquiry' });
+      }
+
+      // Get product name
+      db.query('SELECT name FROM products WHERE id = ?', [product_id], async (err, products) => {
+        const productName = products && products[0] ? products[0].name : 'Unknown Product';
+
+        // Send email to admin
+        try {
+          await sendMail({
+            to: process.env.ADMIN_EMAIL || 'admin@tendywoodlands.com',
+            subject: `New Product Enquiry: ${productName}`,
+            html: `
+              <h2>New Product Enquiry</h2>
+              <p><strong>Product:</strong> ${productName}</p>
+              <p><strong>Name:</strong> ${name}</p>
+              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+              <p><strong>Message:</strong></p>
+              <p>${message.replace(/\n/g, '<br>')}</p>
+              <p><strong>Received:</strong> ${new Date().toLocaleString()}</p>
+            `
+          });
+        } catch (mailErr) {
+          console.error('Email error:', mailErr);
+        }
+
+        // Send acknowledgment to customer
+        try {
+          await sendMail({
+            to: email,
+            subject: `Enquiry Confirmation - ${productName} - Tendy Woodlands Services`,
+            html: `
+              <h2>Thank You, ${name}!</h2>
+              <p>We have received your enquiry about <strong>${productName}</strong>.</p>
+              <p>Our team will review your request and get back to you as soon as possible.</p>
+              <br>
+              <p>Best regards,<br>Tendy Woodlands Services Team</p>
+            `
+          });
+        } catch (mailErr) {
+          console.error('Email error:', mailErr);
+        }
+
+        res.json({ success: true, message: 'Thank you for your enquiry!' });
+      });
     }
   );
 });

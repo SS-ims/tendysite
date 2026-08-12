@@ -16,23 +16,45 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Demo contact form handler (replace with real endpoint)
-function submitContact(e){
+function submitContact(e) {
   e.preventDefault();
   const form = e.target;
-  // Collect values (simple)
+
+  // Collect values
   const data = {
     name: form.name.value.trim(),
     company: form.company.value.trim(),
     email: form.email.value.trim(),
     message: form.message.value.trim()
   };
+
   // Basic validation
-  if(!data.name || !data.email || !data.message){
+  if (!data.name || !data.email || !data.message) {
     alert('Please complete required fields.');
     return false;
   }
-  // Show demo success (swap with real fetch to your server/email service)
-  alert('Thanks, ' + data.name + '! We have received your message and will be in touch.');
-  form.reset();
+
+  // Send to backend API
+  fetch('/api/contact', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+    .then(res => res.json())
+    .then(result => {
+      if (result.success || result.message) {
+        alert('Thanks, ' + data.name + '! ' + (result.message || 'We have received your message and will be in touch.'));
+        form.reset();
+      } else if (result.error) {
+        alert('Error: ' + result.error);
+      }
+    })
+    .catch(err => {
+      console.error('Error:', err);
+      alert('An error occurred. Please try again later.');
+    });
+
   return false;
 }
