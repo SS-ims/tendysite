@@ -291,60 +291,89 @@ app.post('/api/contact', (req, res) => {
     return res.status(400).json({ error: 'Missing required fields: name, email, message' });
   }
 
-  const sql = `
-    INSERT INTO contact_requests
-    (name, company, email, message)
-    VALUES (?, ?, ?, ?)
-  `;
-
-  db.query(
-    sql,
-    [name, company || '', email, message],
-    async (err, result) => {
-      if (err) {
-        console.error('Database error:', err);
-        return res.status(500).json({ error: 'Failed to save contact request' });
-      }
-
-      // Send email to admin
-      try {
-        await sendMail({
-          to: process.env.ADMIN_EMAIL || 'admin@tendywoodlands.com',
-          subject: `New Contact Request from ${name}`,
-          html: `
-            <h2>New Contact Request</h2>
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Company:</strong> ${company || 'Not provided'}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Message:</strong></p>
-            <p>${message.replace(/\n/g, '<br>')}</p>
-            <p><strong>Received:</strong> ${new Date().toLocaleString()}</p>
-          `
-        });
-      } catch (mailErr) {
-        console.error('Email error:', mailErr);
-      }
-
-      // Send acknowledgment to customer
-      try {
-        await sendMail({
-          to: email,
-          subject: 'We received your message - Tendy Woodlands Services',
-          html: `
-            <h2>Thank You, ${name}!</h2>
-            <p>We have received your message and appreciate you reaching out.</p>
-            <p>Our team will review your inquiry and get back to you shortly.</p>
-            <br>
-            <p>Best regards,<br>Tendy Woodlands Services Team</p>
-          `
-        });
-      } catch (mailErr) {
-        console.error('Email error:', mailErr);
-      }
-
-      res.json({ success: true, message: 'Thank you! We have received your message.' });
+  // Find or create client record
+  db.query('SELECT id FROM clients WHERE email = ?', [email], (err, rows) => {
+    if (err) {
+      console.error('Database error (client lookup):', err);
+      return res.status(500).json({ error: 'Database error' });
     }
-  );
+
+    const handleInsertRequest = (clientId) => {
+      const sql = `
+        INSERT INTO contact_requests
+        (client_id, name, company, email, phone, message)
+        VALUES (?, ?, ?, ?, ?, ?)
+      `;
+
+      db.query(
+        sql,
+        [clientId, name, company || '', email, '', message],
+        async (err, result) => {
+          if (err) {
+            console.error('Database error (insert request):', err);
+            return res.status(500).json({ error: 'Failed to save contact request' });
+          }
+
+          // Send email to admin
+          try {
+            await sendMail({
+              to: process.env.ADMIN_EMAIL || 'admin@tendywoodlands.com',
+              subject: `New Contact Request from ${name}`,
+              html: `
+                <h2>New Contact Request</h2>
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Company:</strong> ${company || 'Not provided'}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Message:</strong></p>
+                <p>${message.replace(/\n/g, '<br>')}</p>
+                <p><strong>Received:</strong> ${new Date().toLocaleString()}</p>
+              `
+            });
+          } catch (mailErr) {
+            console.error('Email error:', mailErr);
+          }
+
+          // Send acknowledgment to customer
+          try {
+            await sendMail({
+              to: email,
+              subject: 'We received your message - Tendy Woodlands Services',
+              html: `
+                <h2>Thank You, ${name}!</h2>
+                <p>We have received your message and appreciate you reaching out.</p>
+                <p>Our team will review your inquiry and get back to you shortly.</p>
+                <br>
+                <p>Best regards,<br>Tendy Woodlands Services Team</p>
+              `
+            });
+          } catch (mailErr) {
+            console.error('Email error:', mailErr);
+          }
+
+          res.json({ success: true, message: 'Thank you! We have received your message.' });
+        }
+      );
+    };
+
+    if (rows && rows.length) {
+      // existing client
+      handleInsertRequest(rows[0].id);
+    } else {
+      // create new client
+      db.query(
+        'INSERT INTO clients (name, company, email) VALUES (?, ?, ?)',
+        [name, company || '', email],
+        (err, result) => {
+          if (err) {
+            console.error('Database error (insert client):', err);
+            return res.status(500).json({ error: 'Failed to create client' });
+          }
+
+          handleInsertRequest(result.insertId);
+        }
+      );
+    }
+  });
 });
 
 /* =======================

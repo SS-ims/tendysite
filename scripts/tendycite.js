@@ -3,16 +3,29 @@ document.addEventListener('DOMContentLoaded', () => {
   // year in footer
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // mobile nav
+  // mobile nav: toggle visibility and swap hamburger/X icon
   const toggle = document.querySelector('.nav-toggle');
   const navList = document.getElementById('nav-list');
-  toggle && toggle.addEventListener('click', () => {
-    const expanded = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', String(!expanded));
-    navList.style.display = expanded ? 'none' : 'flex';
-    navList.style.flexDirection = 'column';
-    navList.style.gap = '0.75rem';
-  });
+
+  // Ensure the icon matches the initial aria state
+  if (toggle) {
+    const expandedInit = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.textContent = expandedInit ? '✕' : '☰';
+  }
+
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      const nowExpanded = !expanded;
+      toggle.setAttribute('aria-expanded', String(nowExpanded));
+      toggle.textContent = nowExpanded ? '✕' : '☰';
+      if (navList) {
+        navList.style.display = nowExpanded ? 'flex' : 'none';
+        navList.style.flexDirection = 'column';
+        navList.style.gap = '0.75rem';
+      }
+    });
+  }
 });
 
 // Demo contact form handler (replace with real endpoint)

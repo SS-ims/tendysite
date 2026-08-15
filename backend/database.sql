@@ -61,15 +61,29 @@ CREATE TABLE IF NOT EXISTS product_enquiries (
 -- ================================================
 -- CONTACT REQUESTS TABLE
 -- ================================================
-CREATE TABLE IF NOT EXISTS contact_requests (
+-- Clients table to store customer records
+CREATE TABLE IF NOT EXISTS clients (
   id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL,
   company VARCHAR(255),
+  email VARCHAR(255) UNIQUE NOT NULL,
+  phone VARCHAR(50),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS contact_requests (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  client_id INT,
+  name VARCHAR(255) NOT NULL,
+  company VARCHAR(255),
   email VARCHAR(255) NOT NULL,
+  phone VARCHAR(50),
   message TEXT NOT NULL,
   status ENUM('new', 'read', 'closed') DEFAULT 'new',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (client_id) REFERENCES clients(id)
 );
 
 -- ================================================
